@@ -32,7 +32,11 @@ jobs:
         DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
         GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
       run: make update-external-dependencies
-
+update-external-dependencies:
+    @echo "Updating external dependencies..."
+    # Ensure the directory exists or update the path accordingly
+    if [ ! -d "./scripts/cmd/" ]; then mkdir -p ./scripts/cmd/; fi
+    go get -u ./scripts/cmd/...
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v3
       with:
